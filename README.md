@@ -1,5 +1,5 @@
 # PhysicsA2
 
-Carlo Albino
-Rohelio Lopez
-Wahid Shafique
+Carlo Albino, 
+Rohelio Lopez, 
+Wahid Shafique, 
