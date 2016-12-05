@@ -20,8 +20,7 @@ public class movePlatform : MonoBehaviour {
 
     void Update() {
         print(distTravelled);
-        if (distTravelled > maxDistanceX && switcher) {
-            print("more");
+        if (distTravelled >= maxDistanceX && switcher) {
             modifier = -modifier;
             switcher = false;
         } else if (distTravelled <= startPos.x) {
@@ -37,7 +36,7 @@ public class movePlatform : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        m_rb.velocity = new Vector3(modifier * 5, 0, 0);
+        m_rb.velocity = new Vector3(modifier * 10, 0, 0);
     }
 
     void OnCollisionEnter(Collision coll) {

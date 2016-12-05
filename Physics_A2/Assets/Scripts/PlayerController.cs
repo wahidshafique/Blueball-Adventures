@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class movePlayer : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
     public float deathY = -10f;
     public Vector3 m_maxSpeed = new Vector3(2.0f, 6.0f, 2.0f);
 
@@ -12,15 +12,21 @@ public class movePlayer : MonoBehaviour {
         set { m_isConnected = value; }
         get { return m_isConnected; }
     }
+    public SpringExample m_spring;
 
     // Use this for initialization
     void Start() {
         m_rb = GetComponent<Rigidbody>();
+        m_isConnected = false;
     }
 
     void MovePlayer(float xAxis, float zAxis, bool isJumping) {
         if (m_isConnected) {
-            //early exit 
+            if (isJumping) {
+                m_spring.DetachFromSpring();
+                m_spring = null;
+                m_isConnected = false;
+            }
             return;
         }
 
