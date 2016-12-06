@@ -80,12 +80,13 @@ public class Lift : MonoBehaviour
 
     private void LaunchTarget()
     {
+        float innateMomentum = -mPlayer.velocity.y * mPlayer.mass;
         float accelerationDueToGravity = Physics.gravity.magnitude;
         float freeFallTime = Mathf.Sqrt((2f * pTargetHeight) / accelerationDueToGravity);
         float initialVelocity = accelerationDueToGravity * freeFallTime;
         float initialMomentum = initialVelocity * mPlayer.mass;
 
-        float targetImpulse = initialMomentum / Time.fixedDeltaTime;
+        float targetImpulse = (initialMomentum + innateMomentum) / Time.fixedDeltaTime;
         mPlayer.AddForce(Vector3.up * targetImpulse);
     }
 }
