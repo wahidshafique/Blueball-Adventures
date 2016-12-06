@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
     public float deathY = -10f;
     public Vector3 m_maxSpeed = new Vector3(2.0f, 6.0f, 2.0f);
+    
 
     private Rigidbody m_rb = null;
 
