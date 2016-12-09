@@ -36,6 +36,12 @@ public class TargetRamp : MonoBehaviour
         {
             Debug.LogWarning("WARNING - Please ensure all required GameObjects have been assigned");
         }
+
+        Ray ray = new Ray(pRampEndPoint.transform.position, -1 * pRampEndPoint.transform.right);
+        RaycastHit hit;
+        Physics.Raycast(ray, out hit);
+
+        pRampStartPoint.transform.position = hit.point;
     }
 	
 	// Update is called once per frame
@@ -107,19 +113,35 @@ public class TargetRamp : MonoBehaviour
     private void NudgeTarget()
     {
         Vector3 rampVector = pRampEndPoint.transform.position - pRampStartPoint.transform.position;
-        mContactPoint.z = 0f;
         float targetDistanceToEnd = (pRampEndPoint.transform.position - mContactPoint).magnitude;
         float rampStrength = pTargetAcceleration * mPlayer.mass;
         float strengthDampener = Mathf.Min((rampVector.magnitude - targetDistanceToEnd) / rampVector.magnitude, 0.1f);
-        rampVector.z = ((pTargetLocation.transform.position - pRampEndPoint.transform.position).z) * Time.fixedDeltaTime;
+        float rampMagnitude = rampVector.magnitude;
         rampVector.y = 0f;
-        Vector3 finalVector = (rampVector.normalized * rampStrength * strengthDampener)
-                              / Time.fixedDeltaTime;
+        Vector3 rampDirection = Vector3.Project(rampVector, this.transform.right).normalized;
+        Vector3 finalVector = (rampDirection * rampStrength * strengthDampener) / Time.fixedDeltaTime;
+
         mPlayer.AddForce(finalVector);
     }
 
     private void LaunchTarget()
     {
+        Vector3 launchPosition = mContactPoint - pRampEndPoint.transform.position;
+
+        if (launchPosition.magnitude > (this.transform.localScale.z / 2f))
+        {
+            //  It's within the ramp's width
+            return;
+        }
+
+        float edgeDistance = Vector3.Project(launchPosition, pRampEndPoint.transform.right).magnitude;
+
+        if (edgeDistance > 0.25f)
+        {
+            //  It's within the launch edge of the ramp
+            return;
+        }
+
         Vector3 launchVector = pTargetLocation.transform.position - mPlayer.transform.position;
         Vector3 launchVelocity = mPlayer.velocity;
         float accelerationDueToGravity = Physics.gravity.magnitude;
@@ -136,16 +158,7 @@ public class TargetRamp : MonoBehaviour
 
         freeFallTime += timeAfterBuffer;
 
-        float additionalVelocityX = 0f;
-        if (Vector3.Dot(launchVector, transform.right) > 0f)
-        {
-            additionalVelocityX = (launchVector.x / freeFallTime) - launchVelocity.x;
-        }
-        else
-        {
-            Debug.LogWarning("WARNING - Ensure the Launch Target is positioned correctly!!");
-        }
-
+        float additionalVelocityX = (launchVector.x / freeFallTime) - launchVelocity.x;
         float additionalVelocityZ = (launchVector.z / freeFallTime) - launchVelocity.z;
 
         Vector3 additionalMomentum = Vector3.one * mPlayer.mass;
