@@ -36,6 +36,12 @@ public class TargetRamp : MonoBehaviour
         {
             Debug.LogWarning("WARNING - Please ensure all required GameObjects have been assigned");
         }
+
+        Ray ray = new Ray(pRampEndPoint.transform.position, -1 * pRampEndPoint.transform.right);
+        RaycastHit hit;
+        Physics.Raycast(ray, out hit);
+
+        pRampStartPoint.transform.position = hit.point;
     }
 	
 	// Update is called once per frame
@@ -120,10 +126,19 @@ public class TargetRamp : MonoBehaviour
 
     private void LaunchTarget()
     {
-        Vector3 launchPosition = mContactPoint - mPlayer.transform.position;
+        Vector3 launchPosition = mContactPoint - pRampEndPoint.transform.position;
 
-        if (launchPosition.magnitude > this.transform.localScale.z)
+        if (launchPosition.magnitude > (this.transform.localScale.z / 2f))
         {
+            //  It's within the ramp's width
+            return;
+        }
+
+        float edgeDistance = Vector3.Project(launchPosition, pRampEndPoint.transform.right).magnitude;
+
+        if (edgeDistance > 0.25f)
+        {
+            //  It's within the launch edge of the ramp
             return;
         }
 
