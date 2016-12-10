@@ -49,9 +49,10 @@ public class PlayerController : MonoBehaviour {
         {
             if (transform.position.y > deathY)
             {
-                float horizontalAxis = Input.GetAxis("Horizontal");
                 float verticalAxis = Input.GetAxis("Vertical");
-                bool isJumping = Input.GetKeyDown(KeyCode.Space);
+                float horizontalAxis = Input.GetAxis("Horizontal");
+                bool  isJumping = Input.GetKeyDown(KeyCode.Space);
+
                 MovePlayer(horizontalAxis, verticalAxis, isJumping);
             }
             else
