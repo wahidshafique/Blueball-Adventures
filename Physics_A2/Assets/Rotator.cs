@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof(Rigidbody))]
 public class Rotator : MonoBehaviour {
-    public Rigidbody m_other;
+    public Rigidbody m_other_rb;
+    private Rigidbody m_rb;
 	// Use this for initialization
 	void Start () {
-	
+        m_rb = this.GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
@@ -13,10 +15,6 @@ public class Rotator : MonoBehaviour {
 	
 	}
     void FixedUpdate() {
-        // if this doesn't work try "B.transform.eulerAngles - A.transform.eulerAngles" below
-        Vector3 difference = m_other.transform.eulerAngles - this.transform.eulerAngles;
-        Vector3 velocity = difference / Time.fixedDeltaTime;
-        m_other.angularVelocity = velocity;
-
+        m_rb.AddTorque(-50, 0, 0);
     }
 }

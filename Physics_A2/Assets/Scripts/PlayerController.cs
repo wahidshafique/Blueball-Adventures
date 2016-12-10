@@ -21,8 +21,10 @@ public class PlayerController : MonoBehaviour {
     private bool m_isOnIce = false;
     private bool m_isOnGlue = false;
     private PlayerStateManagerript m_playerStateManager;
+    private GravityBody m_myGravBody;
 
     void Start() {
+        m_myGravBody = FindObjectOfType<GravityBody>();
         m_playerStateManager = FindObjectOfType<PlayerStateManagerript>();
         m_rb = GetComponent<Rigidbody>();
         m_isConnected = false;
@@ -108,6 +110,7 @@ public class PlayerController : MonoBehaviour {
             return;
         }
 
+
         // Calculate the movement direction
         Vector3 moveVelocity = Vector3.zero;
         Vector3 xMovement = (xAxis * m_maxSpeed.x * transform.right);
@@ -115,8 +118,17 @@ public class PlayerController : MonoBehaviour {
         moveVelocity = xMovement + zMovement;
         moveVelocity.y = m_rb.velocity.y;
 
+        //if on attractor allow to jump off
+        if (m_myGravBody.isOnAttactor) {
+            if (isJumping) {
+                m_myGravBody.isOnAttactor = false;
+                m_myGravBody.toggleGravity(true);
+                moveVelocity.y = m_maxSpeed.y * 2;
+            }
+        }
+
         // Set Jumping
-        if (isJumping && (Mathf.Abs(m_rb.velocity.y) < 0.0001f))
+        else if (isJumping && (Mathf.Abs(m_rb.velocity.y) < 0.0001f))
         {
             moveVelocity.y = m_maxSpeed.y;
         }
