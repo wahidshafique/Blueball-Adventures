@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour {
         moveVelocity = xMovement + zMovement;
 
         moveVelocity.y = m_rb.velocity.y;
+
         if (isJumping && (Mathf.Abs(m_rb.velocity.y) < 0.0001f)) {
             moveVelocity.y = m_maxSpeed.y;
         }
