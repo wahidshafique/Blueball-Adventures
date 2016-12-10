@@ -20,6 +20,7 @@ public class SpringPlatform : MonoBehaviour {
     {
 	    if(m_spring.IsPlayerAttached())
         {
+            Debug.Log(Vector3.Distance(transform.position, m_targetPosition.position));
             if (Vector3.Distance(transform.position, m_targetPosition.position) > 0.5f)
             {
                 transform.Translate(m_direction * m_platformSpeed * Time.deltaTime);

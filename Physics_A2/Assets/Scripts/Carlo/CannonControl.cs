@@ -7,6 +7,7 @@ public class CannonControl : MonoBehaviour {
     public Transform m_cannonPivot;
     public Transform m_cannonEnd;
     public float speed;
+    public float m_timeToTarget = 3.0f;
     private bool m_hasPlayer = false;
     private PlayerController m_player;
 
@@ -28,6 +29,7 @@ public class CannonControl : MonoBehaviour {
             if(Input.GetButtonDown("Jump"))
             {
                 ObjectLauncher launcher = m_player.GetComponent<ObjectLauncher>();
+                launcher.SetTime(m_timeToTarget);
                 m_player.transform.parent = null;
                 launcher.SetTarget(m_target.transform);
                 m_player.GetComponent<Rigidbody>().isKinematic = false;

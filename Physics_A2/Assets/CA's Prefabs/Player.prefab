@@ -25,6 +25,7 @@ GameObject:
   - 54: {fileID: 54000012677851568}
   - 114: {fileID: 114000014053290482}
   - 114: {fileID: 114000014288448410}
+  - 114: {fileID: 114000012046219224}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -44,7 +45,6 @@ GameObject:
   - 92: {fileID: 92000011545507338}
   - 124: {fileID: 124000013864488348}
   - 81: {fileID: 81000013991834396}
-  - 114: {fileID: 114000014040432826}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -59,7 +59,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011677678808}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: -4.21}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -178,12 +178,12 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013070100600}
   m_Enabled: 1
---- !u!114 &114000014040432826
+--- !u!114 &114000012046219224
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013070100600}
+  m_GameObject: {fileID: 1000011677678808}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62685dc3bf1cc3946891106fde05763b, type: 3}
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b581ef41e08a36045b9a84ecb481e083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_time: 3
+  m_time: 9
   m_referenceObject: {fileID: 0}
   m_launchOnStart: 0
 --- !u!114 &114000014288448410
@@ -216,7 +216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathY: -10
   m_maxSpeed: {x: 4, y: 6, z: 4}
-  m_canMove: 1
+  m_canMove: 0
   m_spring: {fileID: 0}
 --- !u!124 &124000013864488348
 Behaviour:
@@ -231,7 +231,7 @@ SphereCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011677678808}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e70af0c0332646445a06377cb0f904da, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

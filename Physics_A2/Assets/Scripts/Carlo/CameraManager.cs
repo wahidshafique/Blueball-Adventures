@@ -14,6 +14,14 @@ public class CameraManager : MonoBehaviour {
         m_cameras.Add(m_mainCamera);
 	}
 
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("MainCameraZone"))
+        {
+            SwitchToCamera(0);
+        }
+    }
+
     public int AddCamera(Camera cam)
     {
         if (!m_cameras.Contains(cam))

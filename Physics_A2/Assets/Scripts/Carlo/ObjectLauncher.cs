@@ -71,6 +71,11 @@ public class ObjectLauncher : MonoBehaviour {
         m_referenceObject = target;
     }
 
+    public void SetTime(float time)
+    {
+        m_time = time;
+    }
+
     private float CalculateYImpulse(float displacement, float time)
     {
         // Kinematic formula

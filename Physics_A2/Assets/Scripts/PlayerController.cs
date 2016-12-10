@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour {
     }
     public SpringExample m_spring;
 
+    private bool m_isOnIce = false;
+    private bool m_isOnGlue = false;
+
     // Use this for initialization
     void Start() {
         m_rb = GetComponent<Rigidbody>();
@@ -30,7 +33,7 @@ public class PlayerController : MonoBehaviour {
             }
             return;
         }
-
+        
         Vector3 moveVelocity = Vector3.zero;
         Vector3 xMovement = (xAxis * m_maxSpeed.x * transform.right);
         Vector3 zMovement = (zAxis * m_maxSpeed.z * transform.forward);
@@ -40,7 +43,21 @@ public class PlayerController : MonoBehaviour {
         if (isJumping && (Mathf.Abs(m_rb.velocity.y) < 0.0001f)) {
             moveVelocity.y = m_maxSpeed.y;
         }
-        m_rb.velocity = moveVelocity;
+
+        if(m_isOnIce)
+        {
+            // this needs to be here so that the player will keep sliding
+            m_rb.AddForce(moveVelocity, ForceMode.Acceleration);
+        }
+        /*else if(m_isOnGlue)
+        {
+            // Take into account the friction
+        }*/
+        else
+        {
+            m_rb.velocity = moveVelocity;
+        }
+
     }
 
     // Update is called once per frame
@@ -61,6 +78,30 @@ public class PlayerController : MonoBehaviour {
                 Destroy(this.gameObject);
             }
         }
-        
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("DisableControl"))
+        {
+            m_canMove = false;
+        }
+
+        if (other.CompareTag("EnableControl"))
+        {
+            m_canMove = true;
+        }
+    }
+
+    void OnCollisionStay(Collision other)
+    {
+        if(other.collider.CompareTag("IceFloor"))
+        {
+            m_isOnIce = true;
+        }
+        else
+        {
+            m_isOnIce = false;
+        }
     }
 }
