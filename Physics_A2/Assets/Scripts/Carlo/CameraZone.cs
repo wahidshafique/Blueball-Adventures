@@ -15,9 +15,12 @@ public class CameraZone : MonoBehaviour {
 	
     void OnTriggerEnter(Collider other)
     {
+        // If the player enters 
         if(other.CompareTag("Player"))
         {
+            // Set the camera to the controller
             m_camNum = m_camController.AddCamera(m_camera);
+            // Switch to the new camera
             m_camController.SwitchToCamera(m_camNum);
         }
     }
