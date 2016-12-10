@@ -9,6 +9,7 @@ TagManager:
   - DisableControl
   - IceFloor
   - GlueFloor
+  - WinPlatform
   layers:
   - Default
   - TransparentFX

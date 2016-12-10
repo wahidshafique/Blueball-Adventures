@@ -51,7 +51,10 @@ public class CameraManager : MonoBehaviour {
             // Turn off all cameras
             foreach (Camera c in m_cameras)
             {
-                c.enabled = false;
+                if (c != null)
+                {
+                    c.enabled = false;
+                }
             }
             // Enable the camera passed
             m_cameras[Mathf.Abs(cameraNum)].enabled = true;

@@ -20,8 +20,10 @@ public class PlayerController : MonoBehaviour {
     }
     private bool m_isOnIce = false;
     private bool m_isOnGlue = false;
+    private PlayerStateManagerript m_playerStateManager;
 
     void Start() {
+        m_playerStateManager = FindObjectOfType<PlayerStateManagerript>();
         m_rb = GetComponent<Rigidbody>();
         m_isConnected = false;
     }
@@ -42,6 +44,7 @@ public class PlayerController : MonoBehaviour {
             }
             else
             {
+                m_playerStateManager.SetPlayerState(EPlayerState.Death);
                 // You DEAD
                 print("YOU DIED BY FALLING");
                 Destroy(this.gameObject);
@@ -60,6 +63,11 @@ public class PlayerController : MonoBehaviour {
         if (other.CompareTag("EnableControl"))
         {
             m_canMove = true;
+        }
+
+        if(other.CompareTag("WinPlatform"))
+        {
+            m_playerStateManager.SetPlayerState(EPlayerState.Win);
         }
     }
 
