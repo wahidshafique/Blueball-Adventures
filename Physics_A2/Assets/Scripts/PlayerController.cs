@@ -4,8 +4,8 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
     public float deathY = -10f;
     public Vector3 m_maxSpeed = new Vector3(2.0f, 6.0f, 2.0f);
-    
 
+    public bool m_canMove = true;
     private Rigidbody m_rb = null;
 
     private bool m_isConnected = false;
@@ -45,14 +45,20 @@ public class PlayerController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (m_rb.velocity.y > deathY) {
-            float horizontalAxis = Input.GetAxis("Horizontal");
-            float verticalAxis = Input.GetAxis("Vertical");
-            bool isJumping = Input.GetKeyDown(KeyCode.Space);
-            MovePlayer(horizontalAxis, verticalAxis, isJumping);
-        } else {
-            print("YOU DIED BY FALLING");
-            Destroy(this.gameObject);
+        if (m_canMove)
+        {
+            if (transform.position.y > deathY)
+            {
+                float horizontalAxis = Input.GetAxis("Horizontal");
+                float verticalAxis = Input.GetAxis("Vertical");
+                bool isJumping = Input.GetKeyDown(KeyCode.Space);
+                MovePlayer(horizontalAxis, verticalAxis, isJumping);
+            }
+            else
+            {
+                print("YOU DIED BY FALLING");
+                Destroy(this.gameObject);
+            }
         }
         
     }
