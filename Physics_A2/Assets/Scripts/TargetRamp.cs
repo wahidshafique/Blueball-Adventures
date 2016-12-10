@@ -116,7 +116,6 @@ public class TargetRamp : MonoBehaviour
         float targetDistanceToEnd = (pRampEndPoint.transform.position - mContactPoint).magnitude;
         float rampStrength = pTargetAcceleration * mPlayer.mass;
         float strengthDampener = Mathf.Min((rampVector.magnitude - targetDistanceToEnd) / rampVector.magnitude, 0.1f);
-        float rampMagnitude = rampVector.magnitude;
         rampVector.y = 0f;
         Vector3 rampDirection = Vector3.Project(rampVector, this.transform.right).normalized;
         Vector3 finalVector = (rampDirection * rampStrength * strengthDampener) / Time.fixedDeltaTime;
@@ -145,21 +144,17 @@ public class TargetRamp : MonoBehaviour
         Vector3 launchVector = pTargetLocation.transform.position - mPlayer.transform.position;
         Vector3 launchVelocity = mPlayer.velocity;
         float accelerationDueToGravity = Physics.gravity.magnitude;
-        float freeFallTime = launchVelocity.y / accelerationDueToGravity;
-        float verticalRampBuffer = launchVector.y - (launchVelocity.y * freeFallTime
-                                  + accelerationDueToGravity * freeFallTime * freeFallTime / 2f);
-        float timeAfterBuffer = Mathf.Sqrt((2f * verticalRampBuffer) / accelerationDueToGravity);
+        float totalTime = Mathf.Sqrt(2f * Mathf.Abs(launchVector.y) / accelerationDueToGravity);
 
-        float additionalVelocityY = 0f;
-        if (verticalRampBuffer > 0f)
+        if (launchVector.y < 0)
         {
-            additionalVelocityY = timeAfterBuffer * accelerationDueToGravity;
+            accelerationDueToGravity -= accelerationDueToGravity;
         }
 
-        freeFallTime += timeAfterBuffer;
+        float additionalVelocityY = accelerationDueToGravity * totalTime - launchVelocity.y;
 
-        float additionalVelocityX = (launchVector.x / freeFallTime) - launchVelocity.x;
-        float additionalVelocityZ = (launchVector.z / freeFallTime) - launchVelocity.z;
+        float additionalVelocityX = (launchVector.x / totalTime) - launchVelocity.x;
+        float additionalVelocityZ = (launchVector.z / totalTime) - launchVelocity.z;
 
         Vector3 additionalMomentum = Vector3.one * mPlayer.mass;
         additionalMomentum.y *= additionalVelocityY;
@@ -167,6 +162,7 @@ public class TargetRamp : MonoBehaviour
         additionalMomentum.z *= additionalVelocityZ;
 
         Vector3 additionalImpulse = additionalMomentum / Time.fixedDeltaTime;
+        Debug.Log(additionalImpulse.magnitude);
         mPlayer.AddForce(additionalImpulse.normalized * additionalImpulse.magnitude);
     }
 }

@@ -31,7 +31,7 @@ public class Lift : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (mArmed && mActivated)
+        if (mArmed && mActivated && mPlayer)
         {
             LaunchTarget();
             mArmed = false;
