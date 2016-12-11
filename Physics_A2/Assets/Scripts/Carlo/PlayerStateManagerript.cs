@@ -22,6 +22,7 @@ public class PlayerStateManagerript : MonoBehaviour {
     private EPlayerState m_playerState = EPlayerState.Normal;
     private CameraManager m_cameraManager;
     private int m_cameraNum = 0;
+    private bool endConfirm = false;
 
     void Start()
     {
@@ -44,6 +45,9 @@ public class PlayerStateManagerript : MonoBehaviour {
             case EPlayerState.Normal:
             default:
                 DisplayMessage("");
+                if (endConfirm) {
+                    DisplayMessage("Press escape again to quit, jump to return to normal!");
+                }
                 break;
         }
 
@@ -64,6 +68,17 @@ public class PlayerStateManagerript : MonoBehaviour {
             if(Input.GetButtonDown("Cancel"))
             {
                 SceneManager.LoadScene(m_menuSceneIndex); 
+            }
+        }
+        //special normal escape
+        if (m_playerState == EPlayerState.Normal) {
+            if (Input.GetButtonDown("Jump") && endConfirm) endConfirm = false;
+            if (Input.GetButtonDown("Cancel")) {
+                if (endConfirm) {
+                    SceneManager.LoadScene(m_menuSceneIndex);
+                }
+                endConfirm = true;
+                return;
             }
         }
 
