@@ -23,7 +23,6 @@ GameObject:
   - 135: {fileID: 135000010165127494}
   - 23: {fileID: 23000013231263342}
   - 54: {fileID: 54000013410959124}
-  - 114: {fileID: 114000012622940662}
   - 114: {fileID: 114000013716632858}
   m_Layer: 0
   m_Name: AttractorSphere
@@ -96,18 +95,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
---- !u!114 &114000012622940662
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010057435154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19cb3224b754084d81f80a02f8b020f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_other_rb: {fileID: 0}
 --- !u!114 &114000013716632858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -120,6 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: -10
+  torqueModifier: 37.03
 --- !u!135 &135000010165127494
 SphereCollider:
   m_ObjectHideFlags: 1

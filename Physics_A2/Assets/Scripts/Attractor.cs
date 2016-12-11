@@ -3,7 +3,15 @@ using System.Collections;
 
 public class Attractor : MonoBehaviour {
     public float gravity = -10;
+    public float torqueModifier = 5;
+    private Rigidbody m_rb;
 
+    void Start() {
+        m_rb = this.GetComponent<Rigidbody>();
+    }
+    void FixedUpdate() {
+        m_rb.AddTorque(transform.up * torqueModifier);
+    }
     public void Attract(Transform body) {
         //dir of player from center
         Vector3 gravUp = (body.position - transform.position).normalized;
