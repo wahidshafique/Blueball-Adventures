@@ -22,8 +22,10 @@ public class PlayerController : MonoBehaviour {
     private bool m_isOnGlue = false;
     private PlayerStateManagerript m_playerStateManager;
     private GravityBody m_myGravBody;
+    private sinkingPlatform m_mySinker;
 
     void Start() {
+        m_mySinker = FindObjectOfType<sinkingPlatform>();
         m_myGravBody = FindObjectOfType<GravityBody>();
         m_playerStateManager = FindObjectOfType<PlayerStateManagerript>();
         m_rb = GetComponent<Rigidbody>();
@@ -98,6 +100,7 @@ public class PlayerController : MonoBehaviour {
     // Moves the player
     private void MovePlayer(float xAxis, float zAxis, bool isJumping)
     {
+        print(Mathf.Abs(m_rb.velocity.y));
         // If connected to a spring only allow jumping off of the spring
         if (m_isConnected)
         {
@@ -125,6 +128,8 @@ public class PlayerController : MonoBehaviour {
                 m_myGravBody.toggleGravity(true);
                 moveVelocity.y = m_maxSpeed.y * 2;
             }
+        } else if (m_mySinker.triggered) {
+            moveVelocity.y = m_maxSpeed.y * 3;
         }
 
         // Set Jumping
