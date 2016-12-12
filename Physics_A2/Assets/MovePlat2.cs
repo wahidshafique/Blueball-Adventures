@@ -13,7 +13,9 @@ public class MovePlat2 : MonoBehaviour {
     private Vector3 directionFinal;
 
     private Rigidbody m_rb;
+    private Rigidbody m_rbOther;
     private bool toggle = true;
+    private bool triggered = false;
 
     private float origDistInter;
     private float origDistFinal;
@@ -29,6 +31,7 @@ public class MovePlat2 : MonoBehaviour {
     }
 
     void Update() {
+        matchVel();
         if (!isAlt)
             movetoPoints(directionInter, pointInter, origDistInter);
         else movetoPoints(directionFinal, pointEnd, origDistFinal);
@@ -50,19 +53,27 @@ public class MovePlat2 : MonoBehaviour {
         }
     }
 
+    void matchVel() {
+        if (triggered) {
+            //m_rbOther.MovePosition(m_rb.velocity);
+        } 
+    }
+
     void OnCollisionEnter(Collision coll) {
         if (coll.gameObject.CompareTag("Player")) {
+            m_rbOther = coll.gameObject.GetComponent<Rigidbody>();
             isAlt = true;
         }
     }
     void OnCollisionStay(Collision coll) {
         if (coll.gameObject.CompareTag("Player")) {
-            coll.rigidbody.velocity = m_rb.velocity;
+            triggered = true;
         }
     }
     void OnCollisionExit(Collision coll) {
         if (coll.gameObject.CompareTag("Player")) {
-            coll.rigidbody.velocity = new Vector3(0,0,0);
+            m_rbOther.velocity = new Vector3(0,0,0);
+            triggered = false;
         }
     }
 }
