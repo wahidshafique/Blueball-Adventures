@@ -33,21 +33,17 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Update() {
-        if (m_canMove)
-        {
+        if (m_canMove) {
             // If not dead
-            if (transform.position.y > deathY)
-            {
+            if (transform.position.y > deathY) {
                 // Grab Input
                 float verticalAxis = Input.GetAxis("Vertical");
                 float horizontalAxis = Input.GetAxis("Horizontal");
-                bool  isJumping = Input.GetKeyDown(KeyCode.Space);
+                bool isJumping = Input.GetKeyDown(KeyCode.Space);
 
                 // Move the player
                 MovePlayer(horizontalAxis, verticalAxis, isJumping);
-            }
-            else
-            {
+            } else {
                 m_playerStateManager.SetPlayerState(EPlayerState.Death);
                 // You DEAD
                 print("YOU DIED BY FALLING");
@@ -56,56 +52,42 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    void OnTriggerEnter(Collider other)
-    {
+    void OnTriggerEnter(Collider other) {
         // Enter triggers that enable or disable controls
-        if(other.CompareTag("DisableControl"))
-        {
+        if (other.CompareTag("DisableControl")) {
             m_canMove = false;
         }
 
-        if (other.CompareTag("EnableControl"))
-        {
+        if (other.CompareTag("EnableControl")) {
             m_canMove = true;
         }
 
-        if(other.CompareTag("WinPlatform"))
-        {
+        if (other.CompareTag("WinPlatform")) {
             m_playerStateManager.SetPlayerState(EPlayerState.Win);
         }
     }
 
-    void OnCollisionStay(Collision other)
-    {
+    void OnCollisionStay(Collision other) {
         // Check for the what surface the player in on
-        if(other.collider.CompareTag("IceFloor"))
-        {
+        if (other.collider.CompareTag("IceFloor")) {
             m_isOnIce = true;
-        }
-        else
-        {
+        } else {
             m_isOnIce = false;
         }
 
-        if (other.collider.CompareTag("GlueFloor"))
-        {
+        if (other.collider.CompareTag("GlueFloor")) {
             m_isOnGlue = true;
-        }
-        else
-        {
+        } else {
             m_isOnGlue = false;
         }
     }
 
     // Moves the player
-    private void MovePlayer(float xAxis, float zAxis, bool isJumping)
-    {
+    private void MovePlayer(float xAxis, float zAxis, bool isJumping) {
         print(Mathf.Abs(m_rb.velocity.y));
         // If connected to a spring only allow jumping off of the spring
-        if (m_isConnected)
-        {
-            if (isJumping)
-            {
+        if (m_isConnected) {
+            if (isJumping) {
                 m_spring.DetachFromSpring();
                 m_spring = null;
                 m_isConnected = false;
@@ -133,23 +115,17 @@ public class PlayerController : MonoBehaviour {
         }
 
         // Set Jumping
-        else if (isJumping && (Mathf.Abs(m_rb.velocity.y) < 0.0001f))
-        {
+        else if (isJumping && (Mathf.Abs(m_rb.velocity.y) < 0.0001f)) {
             moveVelocity.y = m_maxSpeed.y;
         }
 
         // Take into account different surfaces
-        if (m_isOnIce)
-        {
+        if (m_isOnIce) {
             // this needs to be here so that the player will keep sliding
             m_rb.AddForce(moveVelocity, ForceMode.Acceleration);
-        }
-        /*else if(m_isOnGlue)
-        {
-            // Take into account the friction
-        }*/
-        else
-        {
+        } else if (m_isOnGlue) {
+            m_rb.velocity = moveVelocity / 4;
+        } else {
             m_rb.velocity = moveVelocity;
         }
 
