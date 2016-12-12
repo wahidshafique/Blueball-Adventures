@@ -25,7 +25,7 @@ public class MovePlat2 : MonoBehaviour {
         origDistInter = Vector3.Distance(this.transform.position, pointInter.position);
 
         origDistFinal = Vector3.Distance(this.transform.position, pointEnd.position);
-                directionFinal = (pointEnd.position - transform.position).normalized * speed;
+        directionFinal = (pointEnd.position - transform.position).normalized * speed;
     }
 
     void Update() {
@@ -47,6 +47,22 @@ public class MovePlat2 : MonoBehaviour {
                 m_rb.velocity = new Vector3(0, 0, 0);
                 toggle = true;
             }
+        }
+    }
+
+    void OnCollisionEnter(Collision coll) {
+        if (coll.gameObject.CompareTag("Player")) {
+            isAlt = true;
+        }
+    }
+    void OnCollisionStay(Collision coll) {
+        if (coll.gameObject.CompareTag("Player")) {
+            coll.rigidbody.velocity = m_rb.velocity;
+        }
+    }
+    void OnCollisionExit(Collision coll) {
+        if (coll.gameObject.CompareTag("Player")) {
+            coll.rigidbody.velocity = new Vector3(0,0,0);
         }
     }
 }
