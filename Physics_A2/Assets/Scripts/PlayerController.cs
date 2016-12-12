@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour {
     private GravityBody m_myGravBody;
     private sinkingPlatform m_mySinker;
 
+    public GameObject m_particles;
+
     void Start() {
         m_mySinker = FindObjectOfType<sinkingPlatform>();
         m_myGravBody = FindObjectOfType<GravityBody>();
@@ -60,10 +62,14 @@ public class PlayerController : MonoBehaviour {
 
         if (other.CompareTag("EnableControl")) {
             m_canMove = true;
+            if (m_particles != null)
+                Instantiate(m_particles, transform.position, Quaternion.identity);
         }
 
         if (other.CompareTag("WinPlatform")) {
             m_playerStateManager.SetPlayerState(EPlayerState.Win);
+            if (m_particles != null)
+                Instantiate(m_particles, transform.position, Quaternion.identity);
         }
     }
 
@@ -91,6 +97,8 @@ public class PlayerController : MonoBehaviour {
                 m_spring.DetachFromSpring();
                 m_spring = null;
                 m_isConnected = false;
+                m_isOnGlue = false;
+                m_isOnIce = false;
             }
             return;
         }
@@ -110,8 +118,11 @@ public class PlayerController : MonoBehaviour {
                 m_myGravBody.toggleGravity(true);
                 moveVelocity.y = m_maxSpeed.y * 2;
             }
-        } else if (m_mySinker.triggered) {
-            moveVelocity.y = m_maxSpeed.y * 3;
+        } else if (m_mySinker != null && m_mySinker.triggered) {
+            if (isJumping)
+            {
+                moveVelocity.y = m_maxSpeed.y * 3;
+            }
         }
 
         // Set Jumping

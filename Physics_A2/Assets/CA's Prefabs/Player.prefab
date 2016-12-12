@@ -230,8 +230,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathY: -10
   m_maxSpeed: {x: 4, y: 6, z: 4}
-  m_canMove: 1
+  m_canMove: 0
   m_spring: {fileID: 0}
+  m_particles: {fileID: 1000011566528986, guid: d090ad70c6a96f34b97f1ef4e9260cd2,
+    type: 2}
 --- !u!124 &124000014258088136
 Behaviour:
   m_ObjectHideFlags: 1
