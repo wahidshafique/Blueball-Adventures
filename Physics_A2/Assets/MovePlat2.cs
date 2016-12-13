@@ -55,7 +55,7 @@ public class MovePlat2 : MonoBehaviour {
 
     void matchVel() {
         if (triggered) {
-            //m_rbOther.MovePosition(m_rb.velocity);
+            m_rbOther.MovePosition(m_rb.velocity);
         } 
     }
 
